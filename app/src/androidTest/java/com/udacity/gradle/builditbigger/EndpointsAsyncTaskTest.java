@@ -1,10 +1,14 @@
 package com.udacity.gradle.builditbigger;
 
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
-import org.junit.After;
+
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -14,10 +18,16 @@ public class EndpointsAsyncTaskTest {
 
     @Test
     public void testDoInBackground() throws Exception {
-        com.udacity.gradle.builditbigger.MainActivityFragment fragment = new com.udacity.gradle.builditbigger.MainActivityFragment();
-        fragment.testFlag = true;
-        new EndpointsAsyncTask().execute(fragment);
-        Thread.sleep(5000);
-        assertTrue("Error: Getting Jokes :  " + fragment.loadedJoke, fragment.loadedJoke != null);
+        try {
+            MainActivityFragment fragment = new MainActivityFragment();
+            EndpointsAsyncTask syncEndpoint = (EndpointsAsyncTask) new EndpointsAsyncTask().execute(fragment);
+            syncEndpoint.execute();
+            String result = syncEndpoint.get(30, TimeUnit.SECONDS);
+
+            assertNotNull(result);
+            assertTrue(result.length() > 0);
+        } catch (Exception e) {
+            Log.e("Test:", " Timed out");
+        }
     }
 }

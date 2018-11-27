@@ -35,21 +35,33 @@ android {
         }
     }
     // flavorDimensions "default"
+
     flavorDimensions "version"
     productFlavors {
         free {
             applicationId "com.udacity.gradle.builditbigger.free"
-
+            versionName "1.0­free"
         }
+
         paid {
             applicationId "com.udacity.gradle.builditbigger.paid"
+            versionName "1.0­paid"
         }
     }
+
     lintOptions {
         checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
+
         abortOnError false
+    }
+
+    sourceSets {
+        free {
+            java.srcDirs('src/free/java')
+        }
+        paid {
+            java.srcDirs('src/main/java')
+        }
     }
 }
 
@@ -58,7 +70,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     endpointsServer project(path: ':backend', configuration: 'endpoints')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    //implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    freeImplementation 'com.google.android.gms:play-services-ads:11.8.0'
     implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.google.http-client:google-http-client-android:1.23.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
